@@ -20,31 +20,23 @@ class ViewController: UIViewController {
     }
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var cardButtons: [UIButton]!
+    
+    //TODO: - Implement selecting feature
     @IBAction func touchCard(_ sender: UIButton) {
-        //TODO: - Implement selecting feature
         
-        if let cardNumber = cardButtons.index(of: sender) {
-            
+//        if let cardNumber = cardButtons.index(of: sender) {
+//
 //            cardButtons[cardNumber].layer.borderWidth = 3.0
 //             cardButtons[cardNumber].layer.borderColor = UIColor.gray.cgColor
-        }
-    }
-    
-//    private func updateViewFromModel() {
-//        scoreLabel.text = "Score: \(game.score)"
-//        for index in cardButtons.indices {
-//            let button = cardButtons[index]
-//            let card = game.deckOfCards[index]
-//            //button.setTitle(face(for: card), for: .normal)
 //
 //        }
-//    }
+    }
     
     
     let shapes = ["▲", "●", "■"]
     var faces = [Card:String]()
 
-    
+    // MARK: - making faces for cards
     func face(for card: Card) -> NSMutableAttributedString {
         
             var attributes: [NSAttributedString.Key: Any] = [:]

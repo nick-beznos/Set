@@ -9,6 +9,7 @@
 import Foundation
 
 struct Set {
+    //TODO: - implement score logic
     var score = 0
     
     var deckOfCards = [Card]()
@@ -16,7 +17,6 @@ struct Set {
 
     
 
-    var threeSelectedCards: [Card] = []
     var alreadyMathcesdCards: [Card] = []
     
     enum cardAttributes {
