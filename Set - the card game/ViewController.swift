@@ -52,12 +52,16 @@ class ViewController: UIViewController {
             let attributedString = NSMutableAttributedString(string: string, attributes: attributes)
             
             if card.color == 0 {
-                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: attributedString.length))
-//                attributes = [.foregroundColor: UIColor.red]
+//                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: attributedString.length))
+                attributes[.foregroundColor] = UIColor.red
             } else if card.color == 1{
-                attributes = [.foregroundColor: UIColor.green]
+                attributes[.foregroundColor] = UIColor.green
+
+                //attributes = [.foregroundColor: UIColor.green]
             } else {
-                attributes = [.foregroundColor: UIColor.purple]
+                attributes[.foregroundColor] = UIColor.purple
+
+                //attributes = [.foregroundColor: UIColor.purple]
             }
             
             if card.shape == 0 {
@@ -80,11 +84,13 @@ class ViewController: UIViewController {
             }
         // TODO: - fix shading
             if card.shading == 0 {
-                attributedString.addAttribute(.strokeWidth, value: 5.0, range: NSRange(location: 0, length: attributedString.length))
-                
+               // attributedString.addAttribute(.strokeWidth, value: 5.0, range: NSRange(location: 0, length: attributedString.length))
+                attributes[.strokeWidth] = 5.0
                
             } else if card.shading == 1 {
-                attributedString.addAttribute(.strokeWidth, value: -5.0, range: NSRange(location: 0, length: attributedString.length))
+               // attributedString.addAttribute(.strokeWidth, value: -5.0, range: NSRange(location: 0, length: attributedString.length))
+                attributes[.strokeWidth] = -5.0
+
                
             } 
             
