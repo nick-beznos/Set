@@ -14,7 +14,7 @@ struct Set {
     
     var deckOfCards = [Card]()
     var dealedCards = [Card]()
-
+    var comparedCards = [Card]()
     
 
     var alreadyMathcesdCards: [Card] = []
@@ -59,7 +59,9 @@ struct Set {
     mutating func dealCards(inTotalOf: Int) -> [Card] {
         var cardsArray = [Card]()
         for _ in 0..<inTotalOf {
-            cardsArray.append(deckOfCards.removeLast())
+            if !deckOfCards.isEmpty{
+                cardsArray.append(deckOfCards.removeLast())
+            }
         }
         return cardsArray
     }
@@ -77,8 +79,13 @@ struct Set {
     }
     
     
-    mutating func chooseCard(at index: Int) {
-    }
+//    mutating func checkSet() -> Bool {
+//        let card1 = comparedCards[0]
+//        let card2 = comparedCards[1]
+//        let card3 = comparedCards[2]
+// 
+//        return true
+//    }
     
     
     

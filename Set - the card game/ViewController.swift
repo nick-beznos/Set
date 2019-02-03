@@ -14,46 +14,63 @@ class ViewController: UIViewController {
 
     
     @IBAction func touchDealTreeCards(_ sender: UIButton) {
+        game.dealThreeCards()
+        drawCrards(inTotalOf: 3)
     }
+    
     @IBAction func touchNewGame(_ sender: UIButton) {
         startNewGame()
     }
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet var cardButtons: [UIButton]!
     
-    //TODO: - Implement selecting feature
+
     @IBAction func touchCard(_ sender: UIButton) {
-        
-//        if let cardNumber = cardButtons.index(of: sender) {
-//
-//            cardButtons[cardNumber].layer.borderWidth = 3.0
-//             cardButtons[cardNumber].layer.borderColor = UIColor.gray.cgColor
-//
-//        }
+                if let cardNumber = cardButtons.index(of: sender) {
+                    if game.comparedCards.count <= 2 {
+            if cardButtons[cardNumber].currentAttributedTitle != nil {
+                cardButtons[cardNumber].isSelected = !cardButtons[cardNumber].isSelected
+            }
+                    
+            if cardButtons[cardNumber].isSelected {
+                cardButtons[cardNumber].layer.borderWidth = 3.0
+                cardButtons[cardNumber].layer.borderColor = UIColor.gray.cgColor
+                
+                for card in cardsOnCreen {
+                    if card.identifier == Int(cardButtons[cardNumber].currentTitle!) {
+                        game.comparedCards.append(card)
+                    }
+                }
+                
+            } else {
+                cardButtons[cardNumber].layer.borderWidth = 0.0
+            }
+                    } else {
+//                        if game.checkSet() {
+//                            //TODO: - Implement selecting feature
+//                        }
+                    }
+        }
     }
     
+    var cardsOnCreen = [Card]()
     
-    let shapes = ["▲", "●", "■"]
+    // MARK: - making faces for cards
+    let shapes = [" ▲ ", " ● ", " ■ "]
     var faces = [Card:String]()
 
-    // MARK: - making faces for cards
     func face(for card: Card) -> NSMutableAttributedString {
         
             var attributes: [NSAttributedString.Key: Any] = [:]
             var string = ""
-            let attributedString = NSMutableAttributedString(string: string, attributes: attributes)
+        var attributedString = NSMutableAttributedString(string: string, attributes: attributes)
             
             if card.color == 0 {
-//                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: attributedString.length))
                 attributes[.foregroundColor] = UIColor.red
             } else if card.color == 1{
                 attributes[.foregroundColor] = UIColor.green
-
-                //attributes = [.foregroundColor: UIColor.green]
             } else {
                 attributes[.foregroundColor] = UIColor.purple
-
-                //attributes = [.foregroundColor: UIColor.purple]
             }
             
             if card.shape == 0 {
@@ -74,35 +91,48 @@ class ViewController: UIViewController {
                 string = string + string + string
                 attributedString.mutableString.setString(string)
             }
-        // TODO: - fix shading
-            if card.shading == 0 {
-               // attributedString.addAttribute(.strokeWidth, value: 5.0, range: NSRange(location: 0, length: attributedString.length))
-                attributes[.strokeWidth] = 5.0
-               
-            } else if card.shading == 1 {
-               // attributedString.addAttribute(.strokeWidth, value: -5.0, range: NSRange(location: 0, length: attributedString.length))
-                attributes[.strokeWidth] = -5.0
-
-               
-            } 
-            
-            
         
+            if card.shading == 0 {
+                attributes[.strokeWidth] = 20.0
+            } else if card.shading == 1 {
+                attributes[.strokeWidth] = 5.0
+            } 
+        
+        attributedString = NSMutableAttributedString(string: string, attributes: attributes)
+            
         return attributedString
     }
     
     
-    
+    //MARK: - startNewGame()
     func startNewGame() {
+        for button in cardButtons.indices {
+            if cardButtons[button].currentAttributedTitle != nil {
+                cardButtons[button].setAttributedTitle(nil, for: .normal)
+                cardButtons[button].isSelected = false
+                cardButtons[button].layer.borderWidth = 0.0
+            }
+        }
+        
         game = Set()
         game.newGame()
+        drawCrards(inTotalOf: 12)
         
-        for index in 0..<(cardButtons.count / 2) {
-            let button = cardButtons[index]
-            
-            let card = game.dealedCards[index]
-            button.setAttributedTitle(face(for: card), for: .normal)
-            // TODO: - fix no color change
+    }
+    
+    func drawCrards(inTotalOf: Int) {
+        for _ in 0..<inTotalOf {
+            for button in cardButtons.indices {
+                if cardButtons[button].currentAttributedTitle == nil {
+                    if !game.dealedCards.isEmpty {
+                        let card = game.dealedCards.removeLast()
+                        cardsOnCreen.append(card)
+                        cardButtons[button].setAttributedTitle(face(for: card), for: .normal)
+                        // WARNING! КОСТЫЛЬ!
+                        cardButtons[button].setTitle(String(card.identifier), for: .normal)
+                    }
+                }
+            }
         }
     }
     
@@ -112,15 +142,14 @@ class ViewController: UIViewController {
     
     
     
-    
-    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        UIApplication.shared.statusBarStyle = .lightContent
-        setNeedsStatusBarAppearanceUpdate()
-        
-        
+      
         startNewGame()
     }
 

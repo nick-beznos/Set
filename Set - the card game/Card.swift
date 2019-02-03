@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Card: Hashable {
+struct Card: Hashable {
     
     var hashValue: Int { return identifier
     }
@@ -16,12 +16,13 @@ class Card: Hashable {
         return lhs.identifier == rhs.identifier
     }
     
-    private var identifier: Int
+    var identifier: Int
 
     var color = 0
     var shape = 0
     var shading = 0
     var number = 0
+    var isSelectedCard = false
 
     private static var identifierFactory = 0
     
