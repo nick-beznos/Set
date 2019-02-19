@@ -14,6 +14,7 @@
 		284ECD5E21F9C2B100824304 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 284ECD5C21F9C2B100824304 /* LaunchScreen.storyboard */; };
 		284ECD6721F9CD8300824304 /* Set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284ECD6621F9CD8300824304 /* Set.swift */; };
 		284ECD6921F9CD8E00824304 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284ECD6821F9CD8E00824304 /* Card.swift */; };
+		28BB9BF3221B494B00F905B4 /* CardDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB9BF2221B494B00F905B4 /* CardDeck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		284ECD5F21F9C2B100824304 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		284ECD6621F9CD8300824304 /* Set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set.swift; sourceTree = "<group>"; };
 		284ECD6821F9CD8E00824304 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		28BB9BF2221B494B00F905B4 /* CardDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDeck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				284ECD5521F9C2B000824304 /* ViewController.swift */,
+				28BB9BF2221B494B00F905B4 /* CardDeck.swift */,
 				284ECD6621F9CD8300824304 /* Set.swift */,
 				284ECD6821F9CD8E00824304 /* Card.swift */,
 				284ECD5721F9C2B000824304 /* Main.storyboard */,
@@ -150,6 +153,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				284ECD5621F9C2B000824304 /* ViewController.swift in Sources */,
+				28BB9BF3221B494B00F905B4 /* CardDeck.swift in Sources */,
 				284ECD5421F9C2B000824304 /* AppDelegate.swift in Sources */,
 				284ECD6721F9CD8300824304 /* Set.swift in Sources */,
 				284ECD6921F9CD8E00824304 /* Card.swift in Sources */,
