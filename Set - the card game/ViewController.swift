@@ -11,130 +11,98 @@ import UIKit
 class ViewController: UIViewController {
    
     private var game: Set!
-
     
-    @IBAction func touchDealTreeCards(_ sender: UIButton) {
-        game.dealThreeCards()
-        drawCrards(inTotalOf: 3)
+    @IBAction private func touchDealTreeCards(_ sender: UIButton) {
+        
     }
     
-    @IBAction func touchNewGame(_ sender: UIButton) {
-        startNewGame()
+    @IBAction private func touchNewGame(_ sender: UIButton) {
+       // startNewGame()
     }
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private var cardButtons: [UIButton]!
     
 
-    @IBAction func touchCard(_ sender: UIButton) {
-                if let cardNumber = cardButtons.index(of: sender) {
-                    if game.comparedCards.count <= 2 {
-            if cardButtons[cardNumber].currentAttributedTitle != nil {
-                cardButtons[cardNumber].isSelected = !cardButtons[cardNumber].isSelected
-            }
-                    
-            if cardButtons[cardNumber].isSelected {
-                cardButtons[cardNumber].layer.borderWidth = 3.0
-                cardButtons[cardNumber].layer.borderColor = UIColor.gray.cgColor
-                
-                for card in cardsOnCreen {
-                    if card.identifier == Int(cardButtons[cardNumber].currentTitle!) {
-                        game.comparedCards.append(card)
-                    }
-                }
-                
-            } else {
-                cardButtons[cardNumber].layer.borderWidth = 0.0
-            }
-                    } else {
-//                        if game.checkSet() {
-//                            //TODO: - Implement selecting feature
-//                        }
-                    }
+    @IBAction private func touchCard(_ sender: UIButton) {
+        if let cardIndex = cardButtons.index(of: sender) {
+            game.selectACard(at: cardIndex)
+
         }
     }
     
     var cardsOnCreen = [Card]()
     
-    // MARK: - making faces for cards
-    let shapes = [" ▲ ", " ● ", " ■ "]
-    var faces = [Card:String]()
-
-    func face(for card: Card) -> NSMutableAttributedString {
-        
-            var attributes: [NSAttributedString.Key: Any] = [:]
-            var string = ""
-        var attributedString = NSMutableAttributedString(string: string, attributes: attributes)
-            
-            if card.color == 0 {
-                attributes[.foregroundColor] = UIColor.red
-            } else if card.color == 1{
-                attributes[.foregroundColor] = UIColor.green
-            } else {
-                attributes[.foregroundColor] = UIColor.purple
-            }
-            
-            if card.shape == 0 {
-                string = shapes[0]
-                attributedString.mutableString.setString(string)
-            } else if card.shape == 1 {
-                string = shapes[1]
-                attributedString.mutableString.setString(string)
-            } else {
-                string = shapes[2]
-                attributedString.mutableString.setString(string)
-            }
-            
-            if card.number == 1 {
-                string += string
-                attributedString.mutableString.setString(string)
-            } else if card.number == 2 {
-                string = string + string + string
-                attributedString.mutableString.setString(string)
-            }
-        
-            if card.shading == 0 {
-                attributes[.strokeWidth] = 20.0
-            } else if card.shading == 1 {
-                attributes[.strokeWidth] = 5.0
-            } 
-        
-        attributedString = NSMutableAttributedString(string: string, attributes: attributes)
-            
-        return attributedString
-    }
-    
     
     //MARK: - startNewGame()
-    func startNewGame() {
-        for button in cardButtons.indices {
-            if cardButtons[button].currentAttributedTitle != nil {
-                cardButtons[button].setAttributedTitle(nil, for: .normal)
-                cardButtons[button].isSelected = false
-                cardButtons[button].layer.borderWidth = 0.0
-            }
-        }
-        
-        game = Set()
-        game.newGame()
-        drawCrards(inTotalOf: 12)
+//    func startNewGame() {
+//        for button in cardButtons.indices {
+//            if cardButtons[button].currentAttributedTitle != nil {
+//                cardButtons[button].setAttributedTitle(nil, for: .normal)
+//                cardButtons[button].isSelected = false
+//                cardButtons[button].layer.borderWidth = 0.0
+//            }
+//        }
+//
+//        game = Set()
+//        game.newGame()
+//        drawCrards(inTotalOf: 12)
+//    }
+
+    func drawCrards(inTotalOf: Int) {
         
     }
     
-    func drawCrards(inTotalOf: Int) {
-        for _ in 0..<inTotalOf {
-            for button in cardButtons.indices {
-                if cardButtons[button].currentAttributedTitle == nil {
-                    if !game.dealedCards.isEmpty {
-                        let card = game.dealedCards.removeLast()
-                        cardsOnCreen.append(card)
-                        cardButtons[button].setAttributedTitle(face(for: card), for: .normal)
-                        // WARNING! КОСТЫЛЬ!
-                        cardButtons[button].setTitle(String(card.identifier), for: .normal)
-                    }
-                }
-            }
-        }
+    // Gets an AttributedString to make faces for cards
+    private func getCardAttributedString(for card: Card) -> NSAttributedString {
+        var attributes : [NSAttributedString.Key: Any]
+        let cardColor = getCardColor(for: card)
+        let cardTitle = getCardTitle(for: card)
+        let cardStroke = getCardStroke(for: card)
+        
+        attributes[NSAttributedString.Key.strokeColor] = cardColor
+        attributes[NSAttributedString.Key.strokeWidth] = cardStroke
+        
+        return NSAttributedString(string: cardTitle, attributes: attributes)
     }
+
+    
+    private func getCardTitle(for card: Card) -> String {
+        var cardTitle = ""
+        
+        for _ in 0..<card.number.rawValue {
+            cardTitle += card.shape.rawValue
+        }
+        return cardTitle
+    }
+    
+    private func getCardStroke(for card: Card) -> Double {
+        var cardStroke = 0.0
+        
+        switch card.shading {
+        case .striped:
+            break
+        case .solid:
+            cardStroke = 5.0
+        case .open:
+            cardStroke = 20.0
+        }
+        return cardStroke
+    }
+    
+    private func getCardColor(for card: Card) -> UIColor {
+        var cardColor: UIColor
+        
+        switch card.color {
+        case .red:
+            cardColor = .red
+        case .green:
+            cardColor = .green
+        case .purple:
+            cardColor = .purple
+        }
+        return cardColor
+    }
+    
     
     
     
@@ -150,7 +118,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
       
-        startNewGame()
+       // startNewGame()
     }
 
 

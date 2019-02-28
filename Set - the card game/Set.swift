@@ -9,86 +9,147 @@
 import Foundation
 
 struct Set {
-    //TODO: - implement score logic
-    var score = 0
-    
-    var deckOfCards = [Card]()
-    var dealedCards = [Card]()
-    var comparedCards = [Card]()
-    
 
-    var alreadyMathcesdCards: [Card] = []
+    private(set) var score = 0
     
-    enum cardAttributes {
-        case color(Int)
-        case shape(Int)
-        case shading(Int)
-        case number(Int)
-    }
+    private(set) var deckOfCards = [Card]()
+    private(set) var dealtCards = [Card]()
+    private(set) var selectedCards = [Card]()
+    private(set) var hasMatched = false
+
+
     
     
-    mutating func makeADeck(for arrOfCards: [Card]) -> [Card] {
-        var cards = arrOfCards
+    //MARK: - funcs
+    private mutating func makeADeck() {
         
-        var color = 0
-        var shape = 0
-        var shading = 0
-        var number = 0
-        
-        while color <= 2 {
-            while shape <= 2 {
-                while shading <= 2 {
-                    while number <= 2 {
-                        cards.append(Card(color: color, shape: shape, shading: shading, number: number))
-                        number += 1
+        if deckOfCards.count > 0 {
+            deckOfCards.removeAll()
+        }
+
+        for number in Card.Number.all {
+            for color in Card.Color.all {
+                for shape in Card.Shape.all {
+                    for shading in Card.Shading.all {
+                        deckOfCards.append(Card(
+                            color: color,
+                            shape: shape,
+                            shading: shading,
+                            number: number))
                     }
-                    number = 0
-                    shading += 1
                 }
-                shading = 0
-                shape += 1
             }
-            shape = 0
-            color += 1
         }
-        
-        cards.shuffle()
-        return cards
+        deckOfCards = deckOfCards.shuffled()
     }
     
-    mutating func dealCards(inTotalOf: Int) -> [Card] {
-        var cardsArray = [Card]()
-        for _ in 0..<inTotalOf {
-            if !deckOfCards.isEmpty{
-                cardsArray.append(deckOfCards.removeLast())
+    private mutating func dealCards(inTotalOf cards: Int) {
+        if deckOfCards.count >= cards && dealtCards.count <= 21 {
+            for _ in 0..<cards {
+                if let drawnCard = dealtCards.popLast() {
+                    dealtCards.append(drawnCard)
+                }
             }
         }
-        return cardsArray
+    }
+    
+    // if selected cards are matched, remove them from cardsInPlay
+    private mutating func checkForMatch() -> Bool{
+        hasMatched = selectedCardsAreMatch()
+        
+        if hasMatched {
+            for card in selectedCards {
+                if let index = dealtCards.index(of: card) {
+                    dealtCards.remove(at: index)
+                }
+            }
+        }
+        return hasMatched
+    }
+    
+    private func selectedCardsAreMatch() -> Bool{
+        if selectedCards.count < 3 {
+            return false
+        }
+        
+        let card1 = selectedCards[0]
+        let card2 = selectedCards[1]
+        let card3 = selectedCards[2]
+        
+        // check color
+        if (((card1.color == card2.color) && (card2.color == card3.color)) || ((card1.color != card2.color) && (card2.color != card3.color) && (card3.color != card1.color))) {
+            return false
+        }
+        
+        // check shape
+        if (((card1.shape == card2.shape) && (card2.shape == card3.shape)) || ((card1.shape != card2.shape) && (card2.shape != card3.shape) && (card3.shape != card1.shape))) {
+            return false
+        }
+        
+        // check shading
+        if (((card1.shading == card2.shading) && (card2.shading == card3.shading)) || ((card1.shading != card2.shading) && (card2.shading != card3.shading) && (card3.shading != card1.shading))) {
+            return false
+        }
+        
+        // check number
+        if (((card1.number == card2.number) && (card2.number == card3.number)) || ((card1.number != card2.number) && (card2.number != card3.number) && (card3.number != card1.number))) {
+            return false
+        }
+
+        return true
+    }
+
+    
+    init() {
+        makeADeck()
+        dealCards(inTotalOf: 12)
+    }
+    
+    mutating func selectACard(at index: Int) {
+        hasMatched = false
+        if (index >= 0 && index < dealtCards.count) {
+            let card = dealtCards[index]
+            // deselect card if it's already been selected and fewer than 3 cards have been selected
+            // else select the card
+            
+            if selectedCards.count < 3 {
+                if let selectedCardIndex = selectedCards.index(of: card) {
+                    selectedCards.remove(at: selectedCardIndex)
+                } else {
+                    selectedCards.append(card)
+                    hasMatched = selectedCardsAreMatch()
+                }
+            } else if selectedCards.count == 3 {
+                if checkForMatch() {
+                    dealCards(inTotalOf: 3)
+                    score += 3
+                } else {
+                    score -= 5
+                }
+ 
+                selectedCards = selectedCards.contains(card) ? [] : [card]
+            }
+        }
+    }
+    
+    mutating func dealThreeMoreCards() {
+        if checkForMatch() {
+            selectedCards.removeAll()
+        }
+        dealCards(inTotalOf: 3)
+        score -= 1
     }
     
     mutating func newGame() {
-        deckOfCards = []
-        deckOfCards = makeADeck(for: deckOfCards)
-        dealedCards = dealCards(inTotalOf: 12)
+        score           = 0
+        deckOfCards     = []
+        dealtCards      = []
+        selectedCards   = []
+        hasMatched      = false
+        
+        makeADeck()
+        dealCards(inTotalOf: 12)
     }
-    
-    mutating func dealThreeCards() {
-        if dealedCards.count <= 21 {
-        dealedCards += dealCards(inTotalOf: 3)
-        }
-    }
-    
-    
-//    mutating func checkSet() -> Bool {
-//        let card1 = comparedCards[0]
-//        let card2 = comparedCards[1]
-//        let card3 = comparedCards[2]
-// 
-//        return true
-//    }
-    
-    
-    
 }
 
 

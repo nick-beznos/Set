@@ -11,11 +11,11 @@ import Foundation
 struct Card {
    
 
-    var color = 0
-    var shape = 0
-    var shading = 0
-    var number = 0
-    var isSelectedCard = false
+    var color : Color
+    var shape : Shape
+    var shading : Shading
+    var number : Number
+    
     
     enum Color {
         case green
@@ -36,12 +36,12 @@ struct Card {
         }
     }
     enum Shading {
-        case full
-        case partial
-        case circle
+        case striped
+        case solid
+        case open
         
         static var all : [Shading] {
-            return [.full, .partial, .circle]
+            return [.striped, .solid, .open]
         }
     }
     enum Number: Int{
@@ -56,12 +56,6 @@ struct Card {
     }
 
     
-//    init (color: Int, shape: Int, shading: Int, number: Int) {
-//        self.color = color
-//        self.shape = shape
-//        self.shading = shading
-//        self.number = number
-//    }
 }
 
 extension Card : Equatable {
