@@ -10,62 +10,83 @@ import UIKit
 
 class ViewController: UIViewController {
    
-    private var game: Set!
-    
-    @IBAction private func touchDealTreeCards(_ sender: UIButton) {
-        
-    }
-    
-    @IBAction private func touchNewGame(_ sender: UIButton) {
-       // startNewGame()
-    }
+    private var game = Set()
+  
+    @IBOutlet private weak var dealCardsButton: UIButton!
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
     
-
+    @IBAction private func touchDealTreeCards(_ sender: UIButton) {
+        game.dealThreeMoreCards()
+        updateView()
+    }
+    @IBAction private func touchNewGame(_ sender: UIButton) {
+       game.newGame()
+        updateView()
+    }
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardIndex = cardButtons.index(of: sender) {
             game.selectACard(at: cardIndex)
-
+            updateView()
         }
     }
     
-    var cardsOnCreen = [Card]()
     
     
-    //MARK: - startNewGame()
-//    func startNewGame() {
-//        for button in cardButtons.indices {
-//            if cardButtons[button].currentAttributedTitle != nil {
-//                cardButtons[button].setAttributedTitle(nil, for: .normal)
-//                cardButtons[button].isSelected = false
-//                cardButtons[button].layer.borderWidth = 0.0
-//            }
-//        }
-//
-//        game = Set()
-//        game.newGame()
-//        drawCrards(inTotalOf: 12)
-//    }
-
-    func drawCrards(inTotalOf: Int) {
+    private func updateView() {
+        updateScore()
+        drawCardButtons()
+        dealCardsButton.isEnabled = canDealMoreCards()
+    }
+    
+    private func updateScore() {
+        if let label = scoreLabel {
+            label.text = "Score: \(game.score)"
+        }
+    }
+    
+    private func drawCardButtons() {
+        let dealtCards = game.dealtCards
+        print(dealtCards)
+        // draw button faces for cards on table
+        for index in dealtCards.indices {
+            let card = dealtCards[index]
+            let cardButton = cardButtons[index]
+            
+            cardButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            cardButton.setAttributedTitle(getCardAttributedString(for: card), for: .normal)
+            addButtonBorder()
+        }
         
+        // makes the rest of the buttons clear
+        for index in dealtCards.count..<cardButtons.count {
+            let cardButton = cardButtons[index]
+            
+            cardButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 0)
+            cardButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+            cardButton.layer.borderWidth = 0.0
+        }
     }
     
     // Gets an AttributedString to make faces for cards
     private func getCardAttributedString(for card: Card) -> NSAttributedString {
-        var attributes : [NSAttributedString.Key: Any]
+        var attributes = [NSAttributedString.Key: Any]()
         let cardColor = getCardColor(for: card)
         let cardTitle = getCardTitle(for: card)
-        let cardStroke = getCardStroke(for: card)
         
-        attributes[NSAttributedString.Key.strokeColor] = cardColor
-        attributes[NSAttributedString.Key.strokeWidth] = cardStroke
+        switch card.shading {
+        case .open:
+            attributes[NSAttributedString.Key.strokeWidth] = 7.0
+            attributes[NSAttributedString.Key.strokeColor] = cardColor
+        case .solid:
+            attributes[NSAttributedString.Key.foregroundColor] = cardColor.withAlphaComponent(1.0)
+        case .striped:
+            attributes[NSAttributedString.Key.foregroundColor] = cardColor.withAlphaComponent(0.5)
+        }
         
         return NSAttributedString(string: cardTitle, attributes: attributes)
     }
 
-    
     private func getCardTitle(for card: Card) -> String {
         var cardTitle = ""
         
@@ -73,20 +94,6 @@ class ViewController: UIViewController {
             cardTitle += card.shape.rawValue
         }
         return cardTitle
-    }
-    
-    private func getCardStroke(for card: Card) -> Double {
-        var cardStroke = 0.0
-        
-        switch card.shading {
-        case .striped:
-            break
-        case .solid:
-            cardStroke = 5.0
-        case .open:
-            cardStroke = 20.0
-        }
-        return cardStroke
     }
     
     private func getCardColor(for card: Card) -> UIColor {
@@ -101,6 +108,36 @@ class ViewController: UIViewController {
             cardColor = .purple
         }
         return cardColor
+    }
+    
+    private func addButtonBorder() {
+        let selectedCards = game.selectedCards
+        let dealtCards = game.dealtCards
+        
+        for index in dealtCards.indices {
+            let card = dealtCards[index]
+            let cardButton = cardButtons[index]
+            
+            if selectedCards.contains(card) {
+                cardButton.layer.borderWidth = 2.0
+                
+                if selectedCards.count < 3 {
+                    cardButton.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+                } else {
+                    cardButton.layer.borderColor = game.hasMatched ? #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1) : #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+                }
+            } else {
+                cardButton.layer.borderWidth = 0.0
+            }
+        }
+    }
+    
+    private func canDealMoreCards() -> Bool {
+        var canDealCards = false
+        if game.deckOfCards.count <= 3 && game.dealtCards.count <= 21 {
+            canDealCards = true
+        }
+        return canDealCards
     }
     
     
@@ -118,9 +155,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
       
-       // startNewGame()
+       updateView()
     }
-
-
 }
 

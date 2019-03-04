@@ -22,9 +22,9 @@ struct Set {
     
     //MARK: - funcs
     private mutating func makeADeck() {
-        
+        print("makeADeck")
         if deckOfCards.count > 0 {
-            deckOfCards.removeAll()
+           
         }
 
         for number in Card.Number.all {
@@ -44,6 +44,7 @@ struct Set {
     }
     
     private mutating func dealCards(inTotalOf cards: Int) {
+        print("dealCards")
         if deckOfCards.count >= cards && dealtCards.count <= 21 {
             for _ in 0..<cards {
                 if let drawnCard = dealtCards.popLast() {
@@ -55,6 +56,8 @@ struct Set {
     
     // if selected cards are matched, remove them from cardsInPlay
     private mutating func checkForMatch() -> Bool{
+        print("checkForMatch")
+
         hasMatched = selectedCardsAreMatch()
         
         if hasMatched {
@@ -68,6 +71,8 @@ struct Set {
     }
     
     private func selectedCardsAreMatch() -> Bool{
+        print("selectedCardsAreMatch")
+
         if selectedCards.count < 3 {
             return false
         }
@@ -99,13 +104,17 @@ struct Set {
         return true
     }
 
-    
+    //!!!
     init() {
+        print("init")
+
         makeADeck()
         dealCards(inTotalOf: 12)
     }
     
     mutating func selectACard(at index: Int) {
+        print("selectACard")
+
         hasMatched = false
         if (index >= 0 && index < dealtCards.count) {
             let card = dealtCards[index]
@@ -133,6 +142,8 @@ struct Set {
     }
     
     mutating func dealThreeMoreCards() {
+        print("dealThreeMoreCards")
+
         if checkForMatch() {
             selectedCards.removeAll()
         }
@@ -141,11 +152,13 @@ struct Set {
     }
     
     mutating func newGame() {
-        score           = 0
-        deckOfCards     = []
-        dealtCards      = []
-        selectedCards   = []
-        hasMatched      = false
+        print("newGame")
+
+        score = 0
+        deckOfCards.removeAll()
+        dealtCards.removeAll()
+        selectedCards.removeAll()
+        hasMatched = false
         
         makeADeck()
         dealCards(inTotalOf: 12)
