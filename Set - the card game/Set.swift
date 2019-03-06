@@ -17,14 +17,9 @@ struct Set {
     private(set) var selectedCards = [Card]()
     private(set) var hasMatched = false
 
-
-    
-    
     //MARK: - funcs
     private mutating func makeADeck() {
-        print("makeADeck")
         if deckOfCards.count > 0 {
-           
         }
 
         for number in Card.Number.all {
@@ -44,10 +39,9 @@ struct Set {
     }
     
     private mutating func dealCards(inTotalOf cards: Int) {
-        print("dealCards")
         if deckOfCards.count >= cards && dealtCards.count <= 21 {
             for _ in 0..<cards {
-                if let drawnCard = dealtCards.popLast() {
+                if let drawnCard = deckOfCards.popLast() {
                     dealtCards.append(drawnCard)
                 }
             }
@@ -56,8 +50,6 @@ struct Set {
     
     // if selected cards are matched, remove them from cardsInPlay
     private mutating func checkForMatch() -> Bool{
-        print("checkForMatch")
-
         hasMatched = selectedCardsAreMatch()
         
         if hasMatched {
@@ -71,7 +63,6 @@ struct Set {
     }
     
     private func selectedCardsAreMatch() -> Bool{
-        print("selectedCardsAreMatch")
 
         if selectedCards.count < 3 {
             return false
@@ -82,45 +73,40 @@ struct Set {
         let card3 = selectedCards[2]
         
         // check color
-        if (((card1.color == card2.color) && (card2.color == card3.color)) || ((card1.color != card2.color) && (card2.color != card3.color) && (card3.color != card1.color))) {
+        if (!((card1.color == card2.color) && (card1.color == card3.color) || (card1.color != card2.color) && (card1.color != card3.color) && (card2.color != card3.color))) {
             return false
         }
         
         // check shape
-        if (((card1.shape == card2.shape) && (card2.shape == card3.shape)) || ((card1.shape != card2.shape) && (card2.shape != card3.shape) && (card3.shape != card1.shape))) {
+        if (!((card1.shape == card2.shape) && (card1.shape == card3.shape) || (card1.shape != card2.shape) && (card1.shape != card3.shape) && (card2.shape != card3.shape))) {
             return false
         }
         
         // check shading
-        if (((card1.shading == card2.shading) && (card2.shading == card3.shading)) || ((card1.shading != card2.shading) && (card2.shading != card3.shading) && (card3.shading != card1.shading))) {
+        if (!((card1.shading == card2.shading) && (card1.shading == card3.shading) || (card1.shading != card2.shading) && (card1.shading != card3.shading) && (card2.shading != card3.shading))) {
             return false
         }
         
         // check number
-        if (((card1.number == card2.number) && (card2.number == card3.number)) || ((card1.number != card2.number) && (card2.number != card3.number) && (card3.number != card1.number))) {
+        if (!((card1.number == card2.number) && (card1.number == card3.number) || (card1.number != card2.number) && (card1.number != card3.number) && (card2.number != card3.number))) {
             return false
         }
 
         return true
     }
 
-    //!!!
     init() {
-        print("init")
-
         makeADeck()
         dealCards(inTotalOf: 12)
     }
     
     mutating func selectACard(at index: Int) {
-        print("selectACard")
 
         hasMatched = false
         if (index >= 0 && index < dealtCards.count) {
             let card = dealtCards[index]
             // deselect card if it's already been selected and fewer than 3 cards have been selected
             // else select the card
-            
             if selectedCards.count < 3 {
                 if let selectedCardIndex = selectedCards.index(of: card) {
                     selectedCards.remove(at: selectedCardIndex)
@@ -135,14 +121,12 @@ struct Set {
                 } else {
                     score -= 5
                 }
- 
                 selectedCards = selectedCards.contains(card) ? [] : [card]
             }
         }
     }
     
     mutating func dealThreeMoreCards() {
-        print("dealThreeMoreCards")
 
         if checkForMatch() {
             selectedCards.removeAll()
@@ -152,7 +136,6 @@ struct Set {
     }
     
     mutating func newGame() {
-        print("newGame")
 
         score = 0
         deckOfCards.removeAll()

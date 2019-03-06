@@ -9,13 +9,11 @@
 import Foundation
 
 struct Card {
-   
 
     var color : Color
     var shape : Shape
     var shading : Shading
     var number : Number
-    
     
     enum Color {
         case green
@@ -26,6 +24,7 @@ struct Card {
            return [.green, .purple, .red]
         }
     }
+    
     enum Shape: String {
         case triangle = "▲"
         case circle = "●"
@@ -35,6 +34,7 @@ struct Card {
             return [.triangle, .circle, .rectangle]
         }
     }
+    
     enum Shading {
         case striped
         case solid
@@ -44,6 +44,7 @@ struct Card {
             return [.striped, .solid, .open]
         }
     }
+    
     enum Number: Int{
         case one = 1
         case two = 2
@@ -52,10 +53,7 @@ struct Card {
         static var all : [Number] {
             return [.one, .two, .three]
         }
-
     }
-
-    
 }
 
 extension Card : Equatable {
@@ -65,6 +63,5 @@ extension Card : Equatable {
         (lhs.shape == rhs.shape) &&
         (lhs.shading == rhs.shading) &&
         (lhs.number == rhs.number)
-        
     }
 }
