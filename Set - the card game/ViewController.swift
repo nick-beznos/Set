@@ -12,9 +12,10 @@ class ViewController: UIViewController {
    
     private var game = Set()
   
-    @IBOutlet private var dealCardsButton: UIButton!
-    @IBOutlet private var scoreLabel: UILabel!
+    @IBOutlet private weak var dealCardsButton: UIButton!
+    @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private var cardButtons: [UIButton]!
+    @IBOutlet private weak var newGameButton: UIButton!
     
     @IBAction private func touchDealTreeCards(_ sender: UIButton) {
             game.dealThreeMoreCards()
@@ -57,6 +58,7 @@ class ViewController: UIViewController {
             let cardButton = cardButtons[index]
             
             cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            cardButton.layer.cornerRadius = 8.0
             cardButton.setAttributedTitle(getCardAttributedString(for: card), for: .normal)
             addButtonBorder()
         }
@@ -147,7 +149,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        // rounding button's corners
+        dealCardsButton.layer.cornerRadius = 8.0
+        newGameButton.layer.cornerRadius = 8.0
+
       
        updateView()
     }
