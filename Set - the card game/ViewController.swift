@@ -152,7 +152,6 @@ class ViewController: UIViewController {
         // rounding button's corners
         dealCardsButton.layer.cornerRadius = 8.0
         newGameButton.layer.cornerRadius = 8.0
-
       
        updateView()
     }

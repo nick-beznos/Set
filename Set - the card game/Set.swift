@@ -8,17 +8,23 @@
 
 import Foundation
 
-struct Set {
+class Set {
 
     private(set) var score = 0
+    private(set) var time = 0
+
     
     private(set) var deckOfCards = [Card]()
     private(set) var dealtCards = [Card]()
     private(set) var selectedCards = [Card]()
     private(set) var hasMatched = false
+    
+    //date
+    private var timer = Timer()
+    
 
     //MARK: - funcs
-    private mutating func makeADeck() {
+    private func makeADeck() {
         if deckOfCards.count > 0 {
         }
 
@@ -35,10 +41,11 @@ struct Set {
                 }
             }
         }
+        //MARK: DISABLE FOR TESTING
         deckOfCards = deckOfCards.shuffled()
     }
     
-    private mutating func dealCards(inTotalOf cards: Int) {
+    private  func dealCards(inTotalOf cards: Int) {
         if deckOfCards.count >= cards && dealtCards.count <= 21 {
             for _ in 0..<cards {
                 if let drawnCard = deckOfCards.popLast() {
@@ -49,7 +56,7 @@ struct Set {
     }
     
     // if selected cards are matched, remove them from cardsInPlay
-    private mutating func checkForMatch() -> Bool{
+    private  func checkForMatch() -> Bool{
         hasMatched = selectedCardsAreMatch()
         
         if hasMatched {
@@ -98,9 +105,12 @@ struct Set {
     init() {
         makeADeck()
         dealCards(inTotalOf: 12)
+        // start a timer
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            self.timeCount()})
     }
     
-    mutating func selectACard(at index: Int) {
+     func selectACard(at index: Int) {
 
         hasMatched = false
         if (index >= 0 && index < dealtCards.count) {
@@ -117,16 +127,17 @@ struct Set {
             } else if selectedCards.count == 3 {
                 if checkForMatch() {
                     dealCards(inTotalOf: 3)
-                    score += 3
+                    score = calculateScore()
+                    time = 0
                 } else {
-                    score -= 5
+                    score -= 10
                 }
                 selectedCards = selectedCards.contains(card) ? [] : [card]
             }
         }
     }
     
-    mutating func dealThreeMoreCards() {
+     func dealThreeMoreCards() {
 
         if checkForMatch() {
             selectedCards.removeAll()
@@ -135,9 +146,9 @@ struct Set {
         score -= 1
     }
     
-    mutating func newGame() {
-
+     func newGame() {
         score = 0
+        time = 0
         deckOfCards.removeAll()
         dealtCards.removeAll()
         selectedCards.removeAll()
@@ -145,6 +156,24 @@ struct Set {
         
         makeADeck()
         dealCards(inTotalOf: 12)
+    }
+    
+    private  func timeCount() {
+        time += 1
+        print(time)
+    }
+    
+    private  func calculateScore() -> Int {
+        var calcutatedScore = 0
+        
+        if time <= 5{
+            calcutatedScore = 10
+        } else if time <= 15 {
+            calcutatedScore = 5
+        } else {
+            calcutatedScore = 2
+        }
+        return calcutatedScore
     }
 }
 
