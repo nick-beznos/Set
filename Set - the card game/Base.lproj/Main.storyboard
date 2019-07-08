@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -208,7 +208,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="xuf-z9-92U">
-                                <rect key="frame" x="71" y="194" width="233" height="174"/>
+                                <rect key="frame" x="71" y="124" width="233" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtO-9r-vpE">
                                         <rect key="frame" x="91.666666666666657" y="0.0" width="50" height="50"/>
@@ -216,7 +216,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6f-ID-IVb">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6f-ID-IVb">
                                         <rect key="frame" x="45" y="64" width="143" height="48"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -227,8 +227,19 @@
                                             <action selector="touchNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kRA-fg-Idf"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5K-pT-b0t">
+                                        <rect key="frame" x="77" y="126" width="79" height="48"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Cheat">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="touchCheat:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AbH-7O-FIh"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZgM-ZM-nDD">
-                                        <rect key="frame" x="0.0" y="126" width="233" height="48"/>
+                                        <rect key="frame" x="0.0" y="188" width="233" height="56"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <state key="normal" title="Deal 3 more cards">
@@ -247,13 +258,14 @@
                             <constraint firstItem="uOx-SM-qAi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="753-XJ-QDB"/>
                             <constraint firstItem="xuf-z9-92U" firstAttribute="centerX" secondItem="uOx-SM-qAi" secondAttribute="centerX" id="8kt-Tj-vDY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uOx-SM-qAi" secondAttribute="trailing" constant="16" id="SSB-bB-flm"/>
-                            <constraint firstItem="xuf-z9-92U" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="h7F-8a-56P"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xuf-z9-92U" secondAttribute="bottom" constant="410" id="ieO-f7-FFJ"/>
+                            <constraint firstItem="xuf-z9-92U" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="80" id="s2R-fv-gyl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="dealCardsButton" destination="ZgM-ZM-nDD" id="Fyu-2u-atp"/>
-                        <outlet property="newGameButton" destination="A6f-ID-IVb" id="c2B-tP-RiL"/>
+                        <outlet property="newGameButton" destination="U5K-pT-b0t" id="uyb-VA-4LI"/>
                         <outlet property="scoreLabel" destination="dtO-9r-vpE" id="bg7-Bg-Eje"/>
                         <outletCollection property="cardButtons" destination="dDS-Mn-Rbb" collectionClass="NSMutableArray" id="9KS-Tj-Mnn"/>
                         <outletCollection property="cardButtons" destination="Q5B-Wx-uZE" collectionClass="NSMutableArray" id="i4g-Am-0fX"/>

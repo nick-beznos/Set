@@ -17,7 +17,11 @@ class Set {
     private(set) var deckOfCards = [Card]()
     private(set) var dealtCards = [Card]()
     private(set) var selectedCards = [Card]()
+    private(set) var cheatSet = [Card]()
     private(set) var hasMatched = false
+    
+
+
     
     //date
     private var timer = Timer()
@@ -57,7 +61,7 @@ class Set {
     
     // if selected cards are matched, remove them from cardsInPlay
     private  func checkForMatch() -> Bool{
-        hasMatched = selectedCardsAreMatch()
+        hasMatched = doCardsMakeMatch(cards: selectedCards)
         
         if hasMatched {
             for card in selectedCards {
@@ -69,15 +73,15 @@ class Set {
         return hasMatched
     }
     
-    private func selectedCardsAreMatch() -> Bool{
+    private func doCardsMakeMatch(cards: [Card]) -> Bool{
 
-        if selectedCards.count < 3 {
+        if cards.count < 3 {
             return false
         }
         
-        let card1 = selectedCards[0]
-        let card2 = selectedCards[1]
-        let card3 = selectedCards[2]
+        let card1 = cards[0]
+        let card2 = cards[1]
+        let card3 = cards[2]
         
         // check color
         if (!((card1.color == card2.color) && (card1.color == card3.color) || (card1.color != card2.color) && (card1.color != card3.color) && (card2.color != card3.color))) {
@@ -98,10 +102,10 @@ class Set {
         if (!((card1.number == card2.number) && (card1.number == card3.number) || (card1.number != card2.number) && (card1.number != card3.number) && (card2.number != card3.number))) {
             return false
         }
-
+        
         return true
     }
-
+    
     init() {
         makeADeck()
         dealCards(inTotalOf: 12)
@@ -115,14 +119,14 @@ class Set {
         hasMatched = false
         if (index >= 0 && index < dealtCards.count) {
             let card = dealtCards[index]
-            // deselect card if it's already been selected and fewer than 3 cards have been selected
+            // deselect card if it has already been selected and fewer than 3 cards have been selected
             // else select the card
             if selectedCards.count < 3 {
                 if let selectedCardIndex = selectedCards.index(of: card) {
                     selectedCards.remove(at: selectedCardIndex)
                 } else {
                     selectedCards.append(card)
-                    hasMatched = selectedCardsAreMatch()
+                    hasMatched = doCardsMakeMatch(cards: selectedCards)
                 }
             } else if selectedCards.count == 3 {
                 if checkForMatch() {
@@ -143,7 +147,10 @@ class Set {
             selectedCards.removeAll()
         }
         dealCards(inTotalOf: 3)
-        score -= 1
+        // if dealt cards contains a set panalize the gamer
+        if let _ = detectASet() {
+            score -= 5
+        }
     }
     
      func newGame() {
@@ -160,7 +167,7 @@ class Set {
     
     private  func timeCount() {
         time += 1
-        print(time)
+        //print(time)
     }
     
     private  func calculateScore() -> Int {
@@ -175,6 +182,34 @@ class Set {
         }
         return calcutatedScore
     }
+    
+    // MARK: -EXTRA CREDIT
+    
+    // searching for a set, by checking all possible cards combinations
+    private func detectASet() -> [Card]? {
+        
+        for first in 0..<dealtCards.count {
+            for second in first+1..<dealtCards.count {
+                for third in second+1..<dealtCards.count {
+                    let possibleSet = [dealtCards[first], dealtCards[second], dealtCards[third]]
+                    if doCardsMakeMatch(cards: possibleSet) {
+                        return possibleSet
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+     func cheat() {
+        cheatSet = detectASet()!
+        score -= 10
+    }
+    
+    private func makeSureSetIsAvailable() {
+        
+    }
+    
 }
 
 

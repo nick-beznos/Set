@@ -17,6 +17,10 @@ class ViewController: UIViewController {
     @IBOutlet private var cardButtons: [UIButton]!
     @IBOutlet private weak var newGameButton: UIButton!
     
+    @IBAction func touchCheat(_ sender: UIButton) {
+        game.cheat()
+        updateView()
+    }
     @IBAction private func touchDealTreeCards(_ sender: UIButton) {
             game.dealThreeMoreCards()
             updateView()
@@ -51,7 +55,7 @@ class ViewController: UIViewController {
     private func drawCardButtons() {
        
         let dealtCards = game.dealtCards
-        print(dealtCards)
+       // print(dealtCards)
         // draw button faces for cards on table
         for index in dealtCards.indices {
             let card = dealtCards[index]
@@ -82,6 +86,7 @@ class ViewController: UIViewController {
         
         switch card.shading {
         case .open:
+            
             attributes[NSAttributedString.Key.strokeWidth] = 10.0
             attributes[NSAttributedString.Key.strokeColor] = cardColor
         case .solid:
@@ -120,12 +125,16 @@ class ViewController: UIViewController {
         
         let selectedCards = game.selectedCards
         let dealtCards = game.dealtCards
+        let cheatCards = game.cheatSet
         
         for index in dealtCards.indices {
             let card = dealtCards[index]
             let cardButton = cardButtons[index]
             
-            if selectedCards.contains(card) {
+            if cheatCards.contains(card) {
+                cardButton.layer.borderWidth = 4.0
+                cardButton.layer.borderColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+            } else if selectedCards.contains(card) {
                 cardButton.layer.borderWidth = 4.0
                 
                 if selectedCards.count < 3 {
