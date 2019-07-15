@@ -227,7 +227,7 @@
                                             <action selector="touchNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kRA-fg-Idf"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U5K-pT-b0t">
+                                    <button opaque="NO" contentMode="center" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="U5K-pT-b0t" userLabel="Cheat Button">
                                         <rect key="frame" x="77" y="126" width="79" height="48"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>

@@ -43,6 +43,9 @@ class ViewController: UIViewController {
         updateScore()
         drawCardButtons()
         dealCardsButton.isEnabled = canDealMoreCards()
+        if game.setIsAvailable == false {
+            gameOver()
+        }
     }
     
     private func updateScore() {
@@ -150,6 +153,18 @@ class ViewController: UIViewController {
     
     private func canDealMoreCards() -> Bool {
         return game.deckOfCards.count >= 3 && game.dealtCards.count <= 21
+    }
+    
+    private func gameOver(){
+        let alert = UIAlertController(title: "There is no possible set!", message: "Your score is \(game.score).", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "New game", style: .cancel, handler: { action in
+            self.game.newGame()
+            self.updateView()
+        }))
+        
+        
+        self.present(alert, animated: true)
     }
    
     override var preferredStatusBarStyle : UIStatusBarStyle {

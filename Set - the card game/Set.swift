@@ -19,6 +19,7 @@ class Set {
     private(set) var selectedCards = [Card]()
     private(set) var cheatSet = [Card]()
     private(set) var hasMatched = false
+    private(set) var setIsAvailable = true
     
 
 
@@ -133,6 +134,7 @@ class Set {
                     dealCards(inTotalOf: 3)
                     score = calculateScore()
                     time = 0
+                    checkIfSetIsAvailable()
                 } else {
                     score -= 10
                 }
@@ -156,6 +158,7 @@ class Set {
      func newGame() {
         score = 0
         time = 0
+        setIsAvailable = true
         deckOfCards.removeAll()
         dealtCards.removeAll()
         selectedCards.removeAll()
@@ -206,8 +209,12 @@ class Set {
         score -= 10
     }
     
-    private func makeSureSetIsAvailable() {
-        
+    private func checkIfSetIsAvailable(){
+        if detectASet() != nil {
+            setIsAvailable = true
+        } else {
+            setIsAvailable = false
+        }
     }
     
 }
